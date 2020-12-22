@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 def ReadHcvDat(file_name):
 # open file
@@ -9,15 +10,22 @@ def ReadHcvDat(file_name):
     line = origin_file.readline()
     vec = line.split(',' , -1)
     for i in range(len(vec)):
-        if vec[i] == 'ALB':
+        if vec[i] == '\"ALB\"':
             break
 
     all_data = []
     while line:
-        vec = line.split(',', -1)
-        all_data.append(vec[i:])
         line = origin_file.readline()
-    print('%s : %d' % (file_name, len(all_data)))
+        vec = line.split(',', -1)
+        if len(vec) < i:
+            continue
+        all_data.append([float(x) if x.find('NA') < 0 else 0 for x in vec[i:]])
+    print('%s : %d * %d' % (file_name, len(all_data), len(all_data[0])))
+    for i in range(len(all_data[0])):
+        mean = np.mean(all_data[:][i])
+        for j in range(len(all_data)):
+            all_data[j][i] = all_data[j][i] if all_data[j][i] != 0 else mean
+
     origin_file.close()
     return all_data
 
