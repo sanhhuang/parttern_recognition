@@ -14,9 +14,11 @@ def ReadSalesTransactionsDatasetWeekly(file_name):
 
     all_data = []
     while line:
-        vec = line.split(',', -1)
-        all_data.append(vec[i:])
         line = origin_file.readline()
+        vec = line.split(',', -1)
+        if len(vec[i:]) == 0:
+            continue
+        all_data.append([float(x) for x in vec[i:]])
     print('%s : %d' % (file_name, len(all_data)))
     origin_file.close()
     return all_data
