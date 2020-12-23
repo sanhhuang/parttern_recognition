@@ -10,7 +10,19 @@ def ReadSeedsDataSet(arrhythmia_file_name):
     all_data = []
     for line in lines:
         # split as list
-        vec = line.split(',', -1)
+        vec = []
+        s_num = ''
+        for char in line:
+            if (char >= '0' and char <= '9') or char == '.':
+                s_num += char
+            else:
+                if len(s_num) > 0:
+                    vec.append(float(s_num))
+                    s_num = ''
+        if len(s_num) > 0:
+            vec.append(float(s_num))
+            s_num = ''
+        print(vec)
         # add in list, double list
         all_data.append(vec[:-2])
     print('%s : %d' % (arrhythmia_file_name, len(all_data)))

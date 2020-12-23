@@ -1,4 +1,4 @@
-import readhcvdat0 
+import readseeds_dataset 
 import numpy as np
 import numpy.matlib
 from sklearn.cluster import KMeans
@@ -12,7 +12,6 @@ def CalEuclidDistance(x1, x2, sqrt_flag=False):
 
 def GetDisMatrix(vec_data):
     dis_matrix = np.zeros((len(vec_data), len(vec_data)))
-    print('dis_matrix %d*%d' % (len(dis_matrix), len(dis_matrix[0])))
     for i in range(len(vec_data)):
         for j in range(i+1):
             dis_matrix[i,j] = CalEuclidDistance(vec_data[i], vec_data[j], True)
@@ -59,7 +58,7 @@ def spKmeans(eigen_matrix):
     return sp_kmeans.labels_
 
 if __name__ == '__main__' :
-    vec_data = np.array(readhcvdat0.ReadHcvDat('hcvdat0.csv'))
+    vec_data = np.array(readseeds_dataset.ReadSeedsDataSet('seeds_dataset.txt'))
     dis_matrix = GetDisMatrix(vec_data)
     print(dis_matrix)
     print('dis_matrix %d*%d' % (len(dis_matrix), len(dis_matrix[0])))
