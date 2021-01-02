@@ -1,5 +1,33 @@
 import numpy as np
 from math import log
+import pandas as pd
+import matplotlib.pyplot as plt
+from pandas.plotting import parallel_coordinates
+from sklearn import datasets
+
+
+def ShowData(data, origin_labels):
+    # 处理类标签数据
+    target = {}
+    cur_target = 1
+    target_labels = []
+    for i in origin_labels:
+        if target.get(i, -1) == -1:
+            target[i] = cur_target
+            cur_target += 1
+        target_labels.append(target[i])
+    data_dict = {}
+    for feature in range(len(data[0])):
+        data_dict[feature] = data[:, feature]
+    data_dict["target_labels"] = target_labels
+    # 合成dataFrame
+    pd_data = pd.DataFrame(data_dict)
+    # 画图
+    plt.figure()
+    parallel_coordinates(pd_data, "target_labels")
+    plt.legend(fancybox=True, shadow=True)
+    plt.show()
+
 
 def MinMaxNormalize(data_array):
     array_size = np.shape(data_array)

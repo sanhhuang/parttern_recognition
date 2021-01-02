@@ -16,6 +16,7 @@ if __name__ == '__main__' :
     for i in shuffle_ix:
         shuffle_labels[index] = sample_labels[i]
         index += 1
+    comm.ShowData(vec_data, shuffle_labels)
     hcv_dat = spectral_clustering.SpectralClustering(knn_num=5, kmeans_num=5, lam_range=5,
                                                      sigma=1, origin_data=vec_data,
                                                      origin_labels=shuffle_labels)
