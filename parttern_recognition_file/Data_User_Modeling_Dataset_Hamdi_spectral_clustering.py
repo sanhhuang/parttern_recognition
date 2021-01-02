@@ -1,9 +1,10 @@
 import read_Data_User_Modeling_Dataset_Hamdi
 import numpy as np
-import numpy.matlib
+import spectral_clustering
 from sklearn.cluster import KMeans
 import math
 import comm
+import copy
 
 
 def CalEuclidDistance(x1, x2, sqrt_flag=False):
@@ -69,13 +70,14 @@ if __name__ == '__main__':
     vec_data, sample_labels = read_Data_User_Modeling_Dataset_Hamdi.ReadUserModelingDataSetHamdi(
         'Data_User_Modeling_Dataset_Hamdi.xls')
     vec_data = np.array(vec_data)
-    boundary = comm.MinMaxNormalize(vec_data)
-    dis_matrix = GetDisMatrix(vec_data)
-    print(dis_matrix)
-    print('dis_matrix %d*%d' % (len(dis_matrix), len(dis_matrix[0])))
-    adjacent_matrix = GetAdjacentMatrixByKNN(dis_matrix, 5)
-    laplacian_matrix = GetLaplacianMatrix(adjacent_matrix)
-    eigen_matrix = GetEigenMatrix(laplacian_matrix)
-    print(eigen_matrix)
-    labels = SpKmeans(eigen_matrix)
-    print(labels)
+    shuffle_ix = np.random.permutation(np.arange(len(vec_data)))
+    vec_data = vec_data[shuffle_ix]
+    shuffle_labels = copy.copy(sample_labels)
+    index = 0
+    for i in shuffle_ix:
+        shuffle_labels[index] = sample_labels[i]
+        index += 1
+    seeds_dataset = spectral_clustering.SpectralClustering(10, 4, 10, 1.0, vec_data, shuffle_labels)
+    labels = seeds_dataset.SpectralClustering()
+    entropy = comm.CalEntropy(labels, shuffle_labels)
+    print(entropy)

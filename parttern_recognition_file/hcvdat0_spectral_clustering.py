@@ -17,5 +17,7 @@ if __name__ == '__main__' :
         index += 1
     hcv_dat = spectral_clustering.SpectralClustering(10, 4, 10, 1.0, vec_data, shuffle_labels)
     labels = hcv_dat.SpectralClustering()
+    entropy = comm.CalEntropy(labels, shuffle_labels)
+    print(entropy)
 
 
