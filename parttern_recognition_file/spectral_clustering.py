@@ -29,11 +29,25 @@ class SpectralClustering:
         return res
 
 
+    def CalCosDistance(self, x1, x2):
+        sum_x1 = np.sqrt(np.sum((x1)**2))
+        if sum_x1 == 0:
+            x1[0] = 0.01
+            sum_x1 = 0.01
+        sum_x2 = np.sqrt(np.sum((x2) ** 2))
+        if sum_x2 == 0:
+            x2[0] = 0.01
+            sum_x2 = 0.01
+        res = np.dot(x1, x2) /(sum_x1 * sum_x2)
+        return res
+
+
     def GetDisMatrix(self, vec_data):
         dis_matrix = np.zeros((len(vec_data), len(vec_data)))
         for i in range(len(vec_data)):
             for j in range(i+1):
                 dis_matrix[i,j] = self.CalEuclidDistance(vec_data[i], vec_data[j])
+                # dis_matrix[i, j] = 1 - self.CalCosDistance(vec_data[i], vec_data[j])
                 dis_matrix[j,i] = dis_matrix[i,j]
         return dis_matrix
 
@@ -112,3 +126,5 @@ if __name__ == '__main__' :
     plt.title('spectral cluster result first origin')
     plt.scatter(vec_data[:, 0], vec_data[:, 1], marker='o', c=y)
     plt.show()
+    entropy = comm.CalEntropy(labels, y)
+    print(entropy)
