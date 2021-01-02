@@ -3,6 +3,7 @@ import comm
 import copy
 import numpy as np
 import spectral_clustering
+from sklearn.cluster import SpectralClustering
 
 if __name__ == '__main__' :
     vec_data, sample_labels = readhcvdat0.ReadHcvDat('hcvdat0.csv')
@@ -15,9 +16,14 @@ if __name__ == '__main__' :
     for i in shuffle_ix:
         shuffle_labels[index] = sample_labels[i]
         index += 1
-    hcv_dat = spectral_clustering.SpectralClustering(10, 5, 5, 1, vec_data, shuffle_labels)
+    hcv_dat = spectral_clustering.SpectralClustering(knn_num=5, kmeans_num=5, lam_range=5,
+                                                     sigma=1, origin_data=vec_data,
+                                                     origin_labels=shuffle_labels)
     labels = hcv_dat.SpectralClustering()
     entropy = comm.CalEntropy(labels, shuffle_labels)
+    print(entropy)
+    clustering = SpectralClustering(n_clusters=5, assign_labels = "discretize", random_state = 0).fit(vec_data)
+    entropy = comm.CalEntropy(clustering.labels_, shuffle_labels)
     print(entropy)
 
 
