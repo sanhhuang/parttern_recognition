@@ -50,15 +50,16 @@ def GetEigenMatrix(laplacian_matrix):
     lam, eigen_vector = np.linalg.eig(laplacian_matrix) # H'shape is n*n
     lam = zip(lam, range(len(lam)))
     lam = sorted(lam, key=lambda x:x[0])
-    eigen_matrix = np.vstack([eigen_vector[:,i] for (v, i) in lam[:1000]]).T
+    eigen_matrix = np.vstack([eigen_vector[:,i] for (v, i) in lam[:20]]).T
     return eigen_matrix
 
 def spKmeans(eigen_matrix):
-    sp_kmeans = KMeans(n_clusters=4).fit(eigen_matrix)
+    sp_kmeans = KMeans(n_clusters=3).fit(eigen_matrix)
     return sp_kmeans.labels_
 
 if __name__ == '__main__' :
-    vec_data = np.array(readseeds_dataset.ReadSeedsDataSet('seeds_dataset.txt'))
+    vec_data, sample_labels = readseeds_dataset.ReadSeedsDataSet('seeds_dataset.txt')
+    vec_data = np.array(vec_data)
     dis_matrix = GetDisMatrix(vec_data)
     print(dis_matrix)
     print('dis_matrix %d*%d' % (len(dis_matrix), len(dis_matrix[0])))
@@ -67,4 +68,5 @@ if __name__ == '__main__' :
     eigen_matrix = GetEigenMatrix(laplacian_matrix)
     labels = spKmeans(eigen_matrix)
     print(labels)
+    print(sample_labels)
 

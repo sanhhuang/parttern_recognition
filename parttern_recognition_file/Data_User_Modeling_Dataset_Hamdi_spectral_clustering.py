@@ -2,6 +2,8 @@ import read_Data_User_Modeling_Dataset_Hamdi
 import numpy as np
 import numpy.matlib
 from sklearn.cluster import KMeans
+import math
+import comm
 
 
 def CalEuclidDistance(x1, x2, sqrt_flag=False):
@@ -12,7 +14,8 @@ def CalEuclidDistance(x1, x2, sqrt_flag=False):
 
 
 def GetDisMatrix(vec_data):
-    dis_matrix = np.zeros((len(vec_data), len(vec_data)))
+    dis_matrix = np.zeros((len(vec_data),
+                           len(vec_data)))
     for i in range(len(vec_data)):
         for j in range(i + 1):
             dis_matrix[i, j] = CalEuclidDistance(vec_data[i], vec_data[j], True)
@@ -53,7 +56,7 @@ def GetEigenMatrix(laplacian_matrix):
     lam, eigen_vector = np.linalg.eig(laplacian_matrix)  # H'shape is n*n
     lam = zip(lam, range(len(lam)))
     lam = sorted(lam, key=lambda x: x[0])
-    eigen_matrix = np.vstack([eigen_vector[:, i] for (v, i) in lam[:1000]]).T
+    eigen_matrix = np.vstack([eigen_vector[:, i] for (v, i) in lam[:int(math.sqrt(len(lam)))]]).T
     return eigen_matrix
 
 
@@ -63,13 +66,16 @@ def SpKmeans(eigen_matrix):
 
 
 if __name__ == '__main__':
-    vec_data = np.array(read_Data_User_Modeling_Dataset_Hamdi.ReadUserModelingDataSetHamdi(
-        'Data_User_Modeling_Dataset_Hamdi.xls'))
+    vec_data, sample_labels = read_Data_User_Modeling_Dataset_Hamdi.ReadUserModelingDataSetHamdi(
+        'Data_User_Modeling_Dataset_Hamdi.xls')
+    vec_data = np.array(vec_data)
+    boundary = comm.MinMaxNormalize(vec_data)
     dis_matrix = GetDisMatrix(vec_data)
     print(dis_matrix)
     print('dis_matrix %d*%d' % (len(dis_matrix), len(dis_matrix[0])))
-    adjacent_matrix = GetAdjacentMatrixByKNN(dis_matrix, 10)
+    adjacent_matrix = GetAdjacentMatrixByKNN(dis_matrix, 5)
     laplacian_matrix = GetLaplacianMatrix(adjacent_matrix)
     eigen_matrix = GetEigenMatrix(laplacian_matrix)
+    print(eigen_matrix)
     labels = SpKmeans(eigen_matrix)
     print(labels)

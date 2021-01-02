@@ -14,11 +14,12 @@ def ReadUserModelingDataSetHamdi(xls_file_name):
         if(table.row_values(0)[limit] == "PEG"):
             break;
     all_data = []
+    lables = []
     for i in range(1, nrows):
+        lables.append(table.row_values(i)[limit + 1])
         all_data.append([float(table.row_values(i)[col]) for col in range(limit + 1)])
-        print(all_data[-1])
     print('%s : %d' % (xls_file_name, len(all_data)))
-    return all_data
+    return all_data, lables
 
 if __name__ == '__main__':
     ReadUserModelingDataSetHamdi('Data_User_Modeling_Dataset_Hamdi.xls')

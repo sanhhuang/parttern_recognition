@@ -8,6 +8,7 @@ def ReadSeedsDataSet(arrhythmia_file_name):
     # get all lines in file
     lines = origin_file.readlines()
     all_data = []
+    labels = []
     for line in lines:
         # split as list
         vec = []
@@ -25,9 +26,10 @@ def ReadSeedsDataSet(arrhythmia_file_name):
         print(vec)
         # add in list, double list
         all_data.append(vec[:-2])
+        labels.append(vec[-1])
     print('%s : %d' % (arrhythmia_file_name, len(all_data)))
     origin_file.close()
-    return all_data
+    return all_data, labels
 
 if __name__ == "__main__":
     ReadSeedsDataSet('seeds_dataset.txt')
