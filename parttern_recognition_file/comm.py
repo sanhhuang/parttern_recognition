@@ -32,7 +32,7 @@ def CalEntropy(labels, origin_labels):
             prob = 1.0 * ij_dictionary[i][0][j] / ij_dictionary[i][1]
             entropy_i -= prob * log(prob,2)
         prob = 1.0 * ij_dictionary[i][1] / len(labels)
-        entropy = entropy_i * prob
+        entropy += entropy_i * prob
     return entropy
 
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     print(data_array)
     MinMaxNormalize(data_array)
     print(data_array)
-    labels = [1, 2, 1, 2, 1, 2]
-    labels2 = [2, 2, 1, 2, 1, 2]
+    labels = [1, 2, 1, 2, 1, 2, 2]
+    labels2 = [2, 2, 1, 2, 1, 2, 2]
     entropy = CalEntropy(labels, labels2)
     print(entropy)
