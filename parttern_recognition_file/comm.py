@@ -3,7 +3,6 @@ from math import log
 import pandas as pd
 import matplotlib.pyplot as plt
 from pandas.plotting import parallel_coordinates
-from sklearn import datasets
 
 
 def ShowData(data, origin_labels):
