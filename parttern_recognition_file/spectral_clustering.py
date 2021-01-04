@@ -89,7 +89,7 @@ class SpectralClustering:
         lam = sorted(lam, key=lambda x:x[0])
         range_lam = int(math.sqrt(len(lam)))
         eigen_matrix = np.vstack([eigen_vector[:,i] for (v, i) in lam[:lam_range]]).T
-        return eigen_matrix
+        return np.real(eigen_matrix)
 
 
     def SpKmeans(self, eigen_matrix):

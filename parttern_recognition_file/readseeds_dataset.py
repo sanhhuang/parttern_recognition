@@ -25,7 +25,9 @@ def ReadSeedsDataSet(arrhythmia_file_name):
             s_num = ''
         print(vec)
         # add in list, double list
-        all_data.append(vec[:-2])
+        all_data.append(vec[:-1])
+        index = [0,1,3,4]
+        #all_data.append([vec[0],vec[1]])
         labels.append(vec[-1])
     print('%s : %d' % (arrhythmia_file_name, len(all_data)))
     origin_file.close()

@@ -17,7 +17,8 @@ def ReadUserModelingDataSetHamdi(xls_file_name):
     lables = []
     for i in range(1, nrows):
         lables.append(table.row_values(i)[limit + 1])
-        all_data.append([float(table.row_values(i)[col]) for col in range(limit + 1)])
+        # all_data.append([float(table.row_values(i)[col]) for col in range(limit+1)])
+        all_data.append([float(table.row_values(i)[4])])
     print('%s : %d' % (xls_file_name, len(all_data)))
     return all_data, lables
 

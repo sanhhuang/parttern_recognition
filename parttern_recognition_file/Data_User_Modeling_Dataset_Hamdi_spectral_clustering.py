@@ -1,6 +1,7 @@
 import read_Data_User_Modeling_Dataset_Hamdi
 import numpy as np
 import spectral_clustering
+from sklearn.cluster import SpectralClustering
 from sklearn.cluster import KMeans
 import math
 import comm
@@ -18,7 +19,13 @@ if __name__ == '__main__':
     for i in shuffle_ix:
         shuffle_labels[index] = sample_labels[i]
         index += 1
-    seeds_dataset = spectral_clustering.SpectralClustering(10, 4, 5, 1.5, vec_data, shuffle_labels)
+    comm.ShowData(vec_data, shuffle_labels)
+    seeds_dataset = spectral_clustering.SpectralClustering(knn_num=10, kmeans_num=4, lam_range=5,
+                                                           sigma=1.5, origin_data=vec_data,
+                                                           origin_labels=shuffle_labels)
     labels = seeds_dataset.SpectralClustering()
     entropy = comm.CalEntropy(labels, shuffle_labels)
+    print(entropy)
+    clustering = SpectralClustering(n_clusters=4, assign_labels = "discretize", random_state = 0).fit(vec_data)
+    entropy = comm.CalEntropy(clustering.labels_, shuffle_labels)
     print(entropy)
