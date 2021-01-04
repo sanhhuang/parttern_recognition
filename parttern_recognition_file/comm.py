@@ -36,6 +36,26 @@ def CalEntropy(labels, origin_labels):
     return entropy
 
 
+def CalAccuracy(labels, origin_labels):
+    ij_dictionary = {}
+    labels_map = {}
+    for i in range(len(labels)):
+        if ij_dictionary.get(labels[i], -1) == -1:
+            ij_dictionary[labels[i]] = [{}, 0]
+            labels_map[labels[i]] = [origin_labels[i], 0]; 
+        if ij_dictionary[labels[i]][0].get(origin_labels[i], -1) == -1:
+            ij_dictionary[labels[i]][0][origin_labels[i]] = 0
+        ij_dictionary[labels[i]][0][origin_labels[i]] += 1
+        ij_dictionary[labels[i]][1] += 1
+        if labels_map[labels[i]][1] < ij_dictionary[labels[i]][0][origin_labels[i]]:
+            labels_map[labels[i]][0] = origin_labels[i]
+            labels_map[labels[i]][1] = ij_dictionary[labels[i]][0][origin_labels[i]]
+    
+    accuracy = 0
+    for i in labels_map:
+        accuracy += labels_map[i][1]
+    return accuracy/len(labels)
+
 if __name__ == '__main__':
     data_array = np.random.random((4, 4))
     print(data_array)
@@ -45,3 +65,5 @@ if __name__ == '__main__':
     labels2 = [2, 2, 1, 2, 1, 2, 2]
     entropy = CalEntropy(labels, labels2)
     print(entropy)
+    accauracy = CalAccuracy(labels, labels2)
+    print(accauracy)
