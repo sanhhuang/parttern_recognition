@@ -26,5 +26,6 @@ if __name__ == '__main__' :
     clustering = SpectralClustering(n_clusters=5, assign_labels = "discretize", random_state = 0).fit(vec_data)
     entropy = comm.CalEntropy(clustering.labels_, shuffle_labels)
     print(entropy)
-
+    accuracy = comm.CalAccuracy(clustering.labels_, shuffle_labels)
+    print(accuracy)
 
