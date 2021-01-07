@@ -77,7 +77,7 @@ def CalAccuracy(labels, origin_labels):
         if labels_map[labels[i]][1] < ij_dictionary[labels[i]][0][origin_labels[i]]:
             labels_map[labels[i]][0] = origin_labels[i]
             labels_map[labels[i]][1] = ij_dictionary[labels[i]][0][origin_labels[i]]
-    # print(ij_dictionary)
+    print(ij_dictionary)
     accuracy = 0
     for i in labels_map:
         accuracy += labels_map[i][1]
