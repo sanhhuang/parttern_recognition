@@ -23,7 +23,7 @@ def ReadSeedsDataSet(arrhythmia_file_name):
         if len(s_num) > 0:
             vec.append(float(s_num))
             s_num = ''
-        print(vec)
+        # print(vec)
         # add in list, double list
         all_data.append(vec[:-1])
         index = [0,1,3,4]

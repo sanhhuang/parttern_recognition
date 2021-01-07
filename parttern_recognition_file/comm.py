@@ -77,7 +77,7 @@ def CalAccuracy(labels, origin_labels):
         if labels_map[labels[i]][1] < ij_dictionary[labels[i]][0][origin_labels[i]]:
             labels_map[labels[i]][0] = origin_labels[i]
             labels_map[labels[i]][1] = ij_dictionary[labels[i]][0][origin_labels[i]]
-    
+    # print(ij_dictionary)
     accuracy = 0
     for i in labels_map:
         accuracy += labels_map[i][1]
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     print(data_array)
     MinMaxNormalize(data_array)
     print(data_array)
-    labels = [1, 2, 1, 2, 1, 2, 2]
+    labels = [1, 2, 2, 2, 1, 2, 2]
     labels2 = [2, 2, 1, 2, 1, 2, 2]
     entropy = CalEntropy(labels, labels2)
     print(entropy)
